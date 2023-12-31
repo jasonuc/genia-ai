@@ -9,7 +9,7 @@ export default function LandingPage() {
         <Link href="/sign-in">
           <Button>Sign In</Button>
         </Link>
-        
+
         <Link href="/sign-up">
           <Button>Sign Up</Button>
         </Link>
