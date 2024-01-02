@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Montserrat } from 'next/font/google'
 import { cn } from "@/lib/utils";
 import { Code, ImageIcon, LayoutDashboard, MessageSquare, MusicIcon, Settings, VideoIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const montserrat = Montserrat({
     weight: '600',
@@ -13,7 +14,7 @@ const montserrat = Montserrat({
 
 interface RouteInterface {
     label: string;
-    icon: any;
+    icon: React.ElementType;
     href: string,
     color?: string
 }
@@ -65,6 +66,9 @@ const routes: RouteInterface[] = [
 
 
 export default function Sidebar() {
+
+    const pathname = usePathname()
+
     return (
         <div className="space-y-4 py-4 flex flex-col items-start h-full bg-[#111827] text-white">
             <div className="px-3 py-2 flex-1 w-full">
@@ -78,7 +82,7 @@ export default function Sidebar() {
 
                 <div className="space-y-5">
                     {routes.map(route => (
-                        <Link href={route.href} key={route.href} className="text-sm group w-full flex p-3 justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition">
+                        <Link href={route.href} key={route.href} className={cn("text-sm group w-full flex p-3 justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition", pathname === route.href ? "text-white bg-white/10" : "text-zinc-400")}>
                             <div className="flex items-center flex-1">
                                 <route.icon className={cn("h-5 w-5 mr-3", route.color)} />
                                 {route.label}
