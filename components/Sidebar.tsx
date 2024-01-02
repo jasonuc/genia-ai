@@ -61,7 +61,6 @@ const routes: RouteInterface[] = [
         icon: Settings,
         href: "/settings",
     }
-
 ]
 
 
