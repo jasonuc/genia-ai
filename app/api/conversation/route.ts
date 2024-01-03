@@ -35,7 +35,7 @@ export async function POST(req: Request) {
             messages
         })
 
-        return NextResponse.json(response.choices[0])
+        return NextResponse.json(response.choices[0].message)
 
     } catch (error) {
         console.log("[CONVERSATION_ERROR]", error);
