@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-enum StatusCodesEnum {
+export enum StatusCodesEnum {
     BadRequest = 400,
     Unauthorised = 401,
     InternalServerError = 500

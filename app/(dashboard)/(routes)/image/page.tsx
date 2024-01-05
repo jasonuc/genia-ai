@@ -1,7 +1,7 @@
 "use client"
 
 import axios from 'axios'
-import { Image } from "lucide-react";
+import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -19,6 +19,8 @@ import Loader from '@/components/Loader';
 import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/UserAvatar';
 import BotAvatar from '@/components/BotAvatar';
+import { Card, CardFooter } from '@/components/ui/card';
+import Image from 'next/image';
 
 export default function ImagePage() {
 
@@ -39,12 +41,12 @@ export default function ImagePage() {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setImages([])
-            // const response = await axios.post("/api/image", values)
-            // const urls = response.data.map((image: { url: string }) => image.url)
-            // setImages(urls)
+            const response = await axios.post("/api/image", values)
+            const urls = response.data.map((image: { url: string }) => image.url)
+            setImages(urls)
             
-            // form.reset()
             console.log(values)
+            form.reset()
         } catch (error) {
             console.log(error)
             // TODO: Open Pro Modal
@@ -57,7 +59,7 @@ export default function ImagePage() {
         <div>
             <Heading title="Image Generation"
                 description="Turn your prompts into an image"
-                icon={Image}
+                icon={ImageIcon}
                 iconColor="text-pink-700"
                 bgColor="bg-pink-700/10" />
 
@@ -135,8 +137,20 @@ export default function ImagePage() {
                         <Empty label='No images generated' />
                     ) }
                     
-                    <div>
-                        Images would be rendered here
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8'>
+                        { images.map((src, i) => (<Card key={i} className='rounded-lg overflow-hidden '>
+                            <div className='relative aspect-square'>
+                                <Image src={src} alt="Image" fill />
+                            </div>
+                            <CardFooter className='p-2'>
+                                <Button 
+                                onClick={() => window.open(src)}
+                                variant="secondary" className='w-full'>
+                                    <Download className='h-4 w-4 mr-2' />
+                                    Download
+                                </Button>
+                            </CardFooter>
+                        </Card>)) }
                     </div>
                 </div>
 
