@@ -8,7 +8,6 @@ import * as z from "zod";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
-import { auth } from '@clerk/nextjs';
 
 import Heading from "@/components/Heading";
 import { formSchema } from "./constants";
