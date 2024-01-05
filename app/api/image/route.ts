@@ -1,7 +1,12 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { StatusCodesEnum } from "@/app/api/conversation/route";
 import OpenAI from "openai";
+
+export enum StatusCodesEnum {
+    BadRequest = 400,
+    Unauthorised = 401,
+    InternalServerError = 500
+}
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
