@@ -16,16 +16,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Empty from '@/components/Empty';
 import Loader from '@/components/Loader';
-import { cn } from '@/lib/utils';
-import UserAvatar from '@/components/UserAvatar';
-import BotAvatar from '@/components/BotAvatar';
 import { Card, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function ImagePage() {
 
     const router = useRouter()
     const [ images, setImages ] = useState<string[]>([])
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -48,7 +47,12 @@ export default function ImagePage() {
             console.log(values)
             form.reset()
         } catch (error) {
-            console.log(error)
+            if (axios.isAxiosError(error)) {
+                toast({
+                    title: error.response?.data,
+                    variant: "destructive"
+                })
+            }
             // TODO: Open Pro Modal
         } finally {
             router.refresh()

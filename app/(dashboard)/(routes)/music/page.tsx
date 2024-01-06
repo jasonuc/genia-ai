@@ -15,11 +15,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Empty from '@/components/Empty';
 import Loader from '@/components/Loader';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function MusicPage() {
 
     const router = useRouter()
     const [music, setMusic] = useState<string>()
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -41,7 +43,12 @@ export default function MusicPage() {
             form.reset()
 
         } catch (error) {
-            console.log(error)
+            if (axios.isAxiosError(error)) {
+                toast({
+                    title: error.response?.data,
+                    variant: "destructive"
+                })
+            }
             // TODO: Open Pro Modal
         } finally {
             router.refresh()

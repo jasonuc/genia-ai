@@ -2,6 +2,8 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
+import { increaseApiUseCount, checkApiUseCount } from "@/lib/api-limit";
+
 enum StatusCodesEnum {
     BadRequest = 400,
     Unauthorised = 401,
@@ -29,6 +31,14 @@ export async function POST(req: Request) {
         if (!messages) {
             return new NextResponse("Messages are required", { status: StatusCodesEnum.BadRequest })
         }
+
+        const freeTrial = await checkApiUseCount();
+
+        if (!freeTrial) {
+            return new NextResponse("Free trial has expired", { status: 403 })
+        }
+
+        await increaseApiUseCount();
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",

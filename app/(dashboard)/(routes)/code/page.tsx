@@ -20,11 +20,13 @@ import Loader from '@/components/Loader';
 import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/UserAvatar';
 import BotAvatar from '@/components/BotAvatar';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function CodePage() {
 
     const router = useRouter()
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([])
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -51,8 +53,13 @@ export default function CodePage() {
 
             form.reset()
 
-        } catch (error) {
-            console.log(error)
+    } catch (error) {
+            if (axios.isAxiosError(error)) {
+                toast({
+                    title: error.response?.data,
+                    variant: "destructive"
+                })
+            }
             // TODO: Open Pro Modal
         } finally {
             router.refresh()
