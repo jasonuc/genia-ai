@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 
 import Heading from "@/components/Heading";
 import { formSchema } from "./constants";
