@@ -42,7 +42,7 @@ export default function MobileSidebar() {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0 border-none">
-                <Sidebar apiLimitCount={apiLimitCount} />
+                <Sidebar apiLimitCount={apiLimitCount as number} />
             </SheetContent>
         </Sheet>
     )
