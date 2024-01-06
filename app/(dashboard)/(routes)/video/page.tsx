@@ -15,13 +15,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Empty from '@/components/Empty';
 import Loader from '@/components/Loader';
-import { useToast } from '@/components/ui/use-toast';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 export default function VideoPage() {
 
     const router = useRouter()
-    const [video, setVideo] = useState<string>()
-    const { toast } = useToast()
+    const [ video, setVideo ] = useState<string>()
+    const proModal = useProModal()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -44,12 +44,10 @@ export default function VideoPage() {
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                toast({
-                    title: error.response?.data,
-                    variant: "destructive"
-                })
+                if (error?.response?.status) {
+                    proModal.onOpen();
+                }
             }
-            // TODO: Open Pro Modal
         } finally {
             router.refresh()
         }

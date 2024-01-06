@@ -18,13 +18,13 @@ import Empty from '@/components/Empty';
 import Loader from '@/components/Loader';
 import { Card, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
-import { useToast } from '@/components/ui/use-toast';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 export default function ImagePage() {
 
     const router = useRouter()
     const [ images, setImages ] = useState<string[]>([])
-    const { toast } = useToast()
+    const proModal = useProModal()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -48,12 +48,10 @@ export default function ImagePage() {
             form.reset()
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                toast({
-                    title: error.response?.data,
-                    variant: "destructive"
-                })
+                if (error?.response?.status) {
+                    proModal.onOpen();
+                }
             }
-            // TODO: Open Pro Modal
         } finally {
             router.refresh()
         }
