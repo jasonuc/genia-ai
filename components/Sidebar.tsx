@@ -66,10 +66,9 @@ const routes: RouteInterface[] = [
 
 interface SidebarProps {
     apiLimitCount: number;
-    isPro: boolean;
 }
 
-export default function Sidebar({ apiLimitCount=0, isPro=false }: SidebarProps) {
+export default function Sidebar({ apiLimitCount=0 }: SidebarProps) {
 
     const pathname = usePathname()
 
