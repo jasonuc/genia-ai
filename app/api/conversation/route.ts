@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 import { increaseApiUseCount, checkApiUseCount } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscriptions";
 
 enum StatusCodesEnum {
     BadRequest = 400,
@@ -33,9 +34,13 @@ export async function POST(req: Request) {
         }
 
         const freeTrial = await checkApiUseCount();
+        const isPro = await checkSubscription();
 
-        if (!freeTrial) {
+        if (!freeTrial && !isPro) {
             return new NextResponse("Free trial has expired", { status: 403 })
+        }
+        if (!isPro) {
+            await increaseApiUseCount();
         }
 
         await increaseApiUseCount();

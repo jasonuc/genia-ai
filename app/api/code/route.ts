@@ -4,6 +4,7 @@ import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 import { increaseApiUseCount, checkApiUseCount } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscriptions";
 
 enum StatusCodesEnum {
     BadRequest = 400,
@@ -39,12 +40,15 @@ export async function POST(req: Request) {
         }
 
         const freeTrial = await checkApiUseCount();
+        const isPro = await checkSubscription();
 
-        if (!freeTrial) {
+        if (!freeTrial && !isPro) {
             return new NextResponse("Free trial has expired", { status: 403 })
         }
 
-        await increaseApiUseCount();
+        if (!isPro) {
+            await increaseApiUseCount();
+        }
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
