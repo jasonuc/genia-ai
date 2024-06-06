@@ -81,7 +81,7 @@ export default function Sidebar({ apiLimitCount=0, isPro=false }: SidebarProps) 
                     <Image fill alt="Logo" src="/logo.png" />
                 </div> */}
                     <Image alt="Logo" src="/logo.png" height={32} width={32} className="mr-4" />
-                    <h1 className={cn("text-2xl font-bold", montserrat.className)}>Genius</h1>
+                    <h1 className={cn("text-2xl font-bold", montserrat.className)}>Genia</h1>
                 </Link>
 
                 <div className="space-y-5">

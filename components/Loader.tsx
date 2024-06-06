@@ -11,7 +11,7 @@ export default function Loader() {
             />
         </div>
         <p className="text-sm text-muted-foreground">
-            Genius is thinking
+            Genia is thinking
         </p>
     </div>
   )

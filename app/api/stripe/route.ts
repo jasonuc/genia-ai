@@ -41,7 +41,7 @@ export async function GET() {
                     price_data: {
                         currency: "GBP",
                         product_data: {
-                            name: "Genius Pro",
+                            name: "Genia Pro",
                             description: "Unlimited AI Generations",
                         },
                         unit_amount: 100,
