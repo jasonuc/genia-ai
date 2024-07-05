@@ -1,4 +1,4 @@
-# Genia AI
+# Genia
 
 This project was built using
 
